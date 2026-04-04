@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>首爾賞櫻地圖 2026 🌸 Seoul Cherry Blossom Map</title>
+  <meta name="description" content="2026 首爾櫻花景點互動地圖，75+ 個春花路線，繁體中文介面，專為台灣旅客設計">
+  <meta property="og:title" content="首爾賞櫻地圖 2026 🌸">
+  <meta property="og:description" content="75+ 個首爾春花景點，互動地圖一目瞭然！專為台灣旅客設計的繁體中文賞花指南。附地鐵站資訊、Google/Naver 導航。">
+  <meta property="og:type" content="website">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="header-top">
+      <div>
+        <h1>🌸 首爾賞櫻地圖 2026</h1>
+        <p class="subtitle">首爾市官方 75+ 個春花景點 · 繁體中文 · 台灣旅客專用</p>
+        <div class="bloom-badge"><span class="bloom-dot"></span>含地鐵站資訊 · Google/Naver 導航</div>
+      </div>
+      <div class="share-btns">
+        <button class="share-btn share-line" id="shareLine">💬 分享到 LINE</button>
+        <button class="share-btn share-copy" id="shareCopy">📋 複製連結</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="search-wrap">
+    <input type="text" class="search-input" id="searchInput" placeholder="🔍 搜尋景點、區域、花種、地鐵站...">
+  </div>
+
+  <div class="filter-bar" id="filterBar">
+    <button class="filter-btn active" data-filter="all">全部</button>
+    <button class="filter-btn fave-filter" data-filter="fave">❤️ 收藏 <span class="count" id="faveCount">0</span></button>
+    <button class="filter-btn" data-filter="cherry">🌸 櫻花</button>
+    <button class="filter-btn" data-filter="forsythia">💛 迎春花</button>
+    <button class="filter-btn" data-filter="azalea">🌺 杜鵑花</button>
+    <button class="filter-btn" data-filter="tulip">🌷 鬱金香</button>
+    <button class="filter-btn" data-filter="rapeseed">🟡 油菜花</button>
+    <button class="filter-btn" data-filter="other">🌿 其他</button>
+  </div>
+
+  <div id="map"></div>
+
+  <div class="stats-bar">
+    <span>顯示 <span class="result-count" id="resultCount">0</span> 個景點</span>
+    <span>📍 點地圖上的「📍」按鈕可定位你的位置</span>
+  </div>
+
+  <div id="spotList" class="spot-list"></div>
+
+  <div class="bloom-tip">
+    <div class="bloom-tip-inner">
+      <span class="bloom-tip-icon">🌸</span>
+      <div class="bloom-tip-text">
+        <strong>想知道現在花開了沒？</strong>
+        <span>打開 Kakao Map app → 搜尋欄下方直接點「Cherry Blossom 🌸」按鈕 → 各景點都有預計花期（開花前／開花中／滿開）</span>
+      </div>
+      <a class="bloom-tip-dl" href="https://apps.apple.com/app/id304608425" target="_blank" rel="noopener">iOS</a>
+      <a class="bloom-tip-dl" href="https://play.google.com/store/apps/details?id=net.daum.android.map" target="_blank" rel="noopener">Android</a>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p>資料來源：<a href="https://www.seoul.go.kr/storyw/springflowerway/list.do" target="_blank" rel="noopener">首爾特別市官方春花路</a> · 即時花況：<a href="https://www.kakaocorp.com/page/detail/11969" target="_blank" rel="noopener">Kakao Map 벚꽃 지도</a></p>
+    <p>花期僅供參考，實際花況依天氣而定</p>
+    <p style="margin-top:8px">Made with 🌸 by <a href="https://mursfoto.com" target="_blank" rel="noopener">MurMur's AI</a></p>
+  </footer>
+
+  <button class="scroll-top" id="scrollTop">↑</button>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
