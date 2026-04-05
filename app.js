@@ -45,7 +45,7 @@
         L.marker(latlng, { icon: L.divIcon({ className:"", html:'<div style="width:16px;height:16px;background:#3b82f6;border:3px solid white;border-radius:50%;box-shadow:0 0 8px rgba(59,130,246,.5)"></div>', iconSize:[16,16], iconAnchor:[8,8] }) }).addTo(map).bindPopup("📍 你在這裡").openPopup();
         map.flyTo(latlng, 14);
         a.textContent = "📍";
-      }, function() { a.textContent = "📍"; });
+      }, function() { a.textContent = "📍"; a.title = "定位失敗，請允許位置權限"; });
     });
     div.appendChild(a);
     return div;
@@ -60,7 +60,7 @@
     return { cherry:"cherry-marker-cherry", forsythia:"cherry-marker-forsythia", azalea:"cherry-marker-azalea", tulip:"cherry-marker-tulip", rapeseed:"cherry-marker-forsythia", other:"cherry-marker-other" }[cat] || "cherry-marker-other";
   }
   function navGoogle(s) { return "https://www.google.com/maps/dir/?api=1&destination="+s.lat+","+s.lng+"&travelmode=transit"; }
-  function navNaver(s) { return "https://map.naver.com/p/search/"+encodeURIComponent(s.nameKr); }
+  function navNaver(s) { return "https://map.naver.com/p/search/"+encodeURIComponent(s.nameKr)+"?c="+s.lng+","+s.lat+",15,0,0,0,dh"; }
   function popLabel(pop) {
     if (pop === "hot") return '<span class="tag tag-hot">🔥 熱門</span>';
     if (pop === "hidden") return '<span class="tag tag-hidden">💎 秘境</span>';
@@ -110,8 +110,10 @@
   }
 
   // ── 建立標記 ──
+  var spotMarkers = {};
   function createMarkers(spots) {
     markerCluster.clearLayers();
+    spotMarkers = {};
     spots.forEach(function(spot) {
       var cat = getFlowerCategory(spot.flowers);
       var emoji = getMarkerEmoji(cat);
@@ -120,6 +122,7 @@
       var marker = L.marker([spot.lat, spot.lng], { icon:icon });
       marker.bindPopup(createPopupContent(spot), { maxWidth:280 });
       markerCluster.addLayer(marker);
+      spotMarkers[spot.nameKr] = marker;
     });
   }
 
@@ -138,6 +141,10 @@
       card.addEventListener("click", function() {
         map.flyTo([spot.lat, spot.lng], 15, { duration:1 });
         window.scrollTo({ top:0, behavior:"smooth" });
+        setTimeout(function() {
+          var m = spotMarkers[spot.nameKr];
+          if (m) { markerCluster.zoomToShowLayer(m, function() { m.openPopup(); }); }
+        }, 1200);
       });
 
       // 名稱列（含收藏按鈕）
@@ -260,14 +267,18 @@
 
   if (shareLineBtn) {
     shareLineBtn.addEventListener("click", function() {
-      window.open("https://social-plugins.line.me/lineit/share?url="+encodeURIComponent(pageUrl)+"&text="+encodeURIComponent(shareText), "_blank");
+      window.open("https://line.me/R/share?text="+encodeURIComponent(shareText + "\n" + pageUrl), "_blank");
     });
   }
   if (shareCopyBtn) {
     shareCopyBtn.addEventListener("click", function() {
-      navigator.clipboard.writeText(shareText + "\n" + pageUrl).then(function() {
+      var copyStr = shareText + "\n" + pageUrl;
+      (navigator.clipboard ? navigator.clipboard.writeText(copyStr) : Promise.reject()).then(function() {
         shareCopyBtn.textContent = "✅ 已複製！";
         setTimeout(function(){ shareCopyBtn.textContent = "📋 複製連結"; }, 2000);
+      }).catch(function() {
+        // fallback: prompt
+        window.prompt("複製以下連結：", copyStr);
       });
     });
   }
