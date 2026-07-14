@@ -11,7 +11,7 @@
 ## Global Constraints
 
 - Spec 正本：`docs/superpowers/specs/2026-07-14-korea-flower-map-design.md`，衝突時以 spec 為準
-- 不新增任何 runtime 依賴、不引入 build step、不加 package.json（測試用 `node --test tests/` 直跑）
+- 不新增任何 runtime 依賴、不引入 build step、不加 package.json（測試用 `node --test tests/*.js` 直跑）
 - JS 風格跟現有 app.js 一致：ES5 `var`/function、IIFE、`textContent` 組 DOM（禁 innerHTML 塞資料）
 - UI 文案繁體中文；commit 標題 ASCII-only（Conventional Commits）
 - 花期一律寫「典型區間」不綁年份（如 `"3月末～4月初"`）；月份預估旁必附「預估花期，實際依天氣而定」
@@ -69,7 +69,7 @@ test("migrateFaves：nameKr 對回第一筆命中的 id、去重、對不到的�
 
 - [ ] **Step 2: 跑測試確認失敗**
 
-Run: `node --test tests/`
+Run: `node --test tests/*.js`
 Expected: FAIL（`Cannot find module '../utils.js'`）
 
 - [ ] **Step 3: 最小實作**
@@ -119,7 +119,7 @@ Expected: FAIL（`Cannot find module '../utils.js'`）
 
 - [ ] **Step 4: 跑測試確認通過**
 
-Run: `node --test tests/`
+Run: `node --test tests/*.js`
 Expected: 6 pass, 0 fail
 
 - [ ] **Step 5: Commit**
@@ -196,7 +196,7 @@ test("必填欄位齊全", () => {
 
 - [ ] **Step 3: 跑測試確認失敗**
 
-Run: `node --test tests/`
+Run: `node --test tests/*.js`
 Expected: data.test.js 的 id/region 測試 FAIL（現有 spot 沒有 id/region）
 
 - [ ] **Step 4: 機械化補 id/region**（一次到位，之後 id 永久凍結不重排）
@@ -209,7 +209,7 @@ awk 'BEGIN{n=0} { if ($0 ~ /^  \{ name:/) { n++; sub(/^  \{ name:/, sprintf("  {
 
 - [ ] **Step 5: 跑測試確認通過**
 
-Run: `node --test tests/`
+Run: `node --test tests/*.js`
 Expected: 全 pass（首爾 72 筆座標本來就該落在 seoul bounds；若有異常座標，逐筆查證後修資料而非放寬 bounds）
 
 - [ ] **Step 6: Commit**
@@ -349,7 +349,7 @@ style.css（接在現有 marker 色票後，沿用同結構：背景淡色 + 邊
       <button class="filter-btn" data-filter="plum">梅花</button>
 ```
 
-- [ ] **Step 4: 驗證**：`node --test tests/` 全 pass；本機開頁 → 新按鈕出現、count 為 0（資料還沒進）、無 console error。
+- [ ] **Step 4: 驗證**：`node --test tests/*.js` 全 pass；本機開頁 → 新按鈕出現、count 為 0（資料還沒進）、無 console error。
 
 - [ ] **Step 5: Commit**
 
@@ -556,7 +556,7 @@ git commit -m "feat: add region tabs for seoul/jeju/busan with per-region counts
 
 （`.spot-list` 若是 grid，`grid-column: 1 / -1` 讓空狀態滿版；實作時確認 `.spot-list` 的 display 值。）
 
-- [ ] **Step 7: 驗證**：本機切「4月」→ 首爾多數景點在列；切「7月」→ 首爾空狀態文案出現（不是空白）；chips 有數字；`node --test tests/` 全 pass。
+- [ ] **Step 7: 驗證**：本機切「4月」→ 首爾多數景點在列；切「7月」→ 首爾空狀態文案出現（不是空白）；chips 有數字；`node --test tests/*.js` 全 pass。
 
 - [ ] **Step 8: Commit**
 
@@ -615,7 +615,7 @@ git commit -m "feat: add month switcher with estimated bloom filter and empty st
 
 - [ ] **Step 3: 跑資料測試**
 
-Run: `node --test tests/`
+Run: `node --test tests/*.js`
 Expected: 全 pass（唯一 id、jeju bounds、bloom 可解析、必填齊全）
 
 - [ ] **Step 4: L3 視覺核對**：本機開頁切濟州 → 每顆 marker 落點與地理常識比對（山房山在西南、城山在東、市區在北）；點 3 筆 navNaver 連結確認 Naver 搜得到該韓文名。
@@ -662,7 +662,7 @@ git commit -m "feat: add 24 jeju year-round flower spots"
   { id:"busan-15", region:"busan", name:"鎮海帝皇山公園", nameKr:"진해 제황산공원", district:"鎮海（近郊）", districtKr:"창원시 진해구", flowers:["櫻花"], bloom:"3月末～4月初", length:0.6, type:"公園", lat:35.1470, lng:128.6610, note:"365 階或單軌車上山俯瞰鎮海櫻花全景", subway:"鎮海市外巴士站步行 15 分", subwayKr:"제황산공원" },
 ```
 
-- [ ] **Step 3: 跑資料測試**：`node --test tests/` 全 pass。
+- [ ] **Step 3: 跑資料測試**：`node --test tests/*.js` 全 pass。
 
 - [ ] **Step 4: L3 視覺核對**：切釜山 → 鎮海三筆在地圖西緣可見（手機 390px 若被裁掉，把 `REGION_META.busan` 改 `center:[35.16,128.95], zoom:10` 並記回 spec）；點 navNaver 抽查 3 筆。
 
@@ -730,7 +730,7 @@ git commit -m "feat: rebrand to korea flower map with new og image"
 
 - [ ] **Step 2: 全站驗證（spec 驗證清單逐項）**
 
-1. `node --test tests/` 全 pass
+1. `node --test tests/*.js` 全 pass
 2. counts：三區「全部」= 72 / 24 / 15；`node -e` 直算 data.js 對照 UI 顯示
 3. 撞名回歸（Task 3 Step 4 再跑一次）
 4. 舊收藏 migration（Task 3 Step 4 場景 2 再跑一次）
