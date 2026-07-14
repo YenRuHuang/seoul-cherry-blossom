@@ -2,19 +2,32 @@
 (function() {
   "use strict";
 
-  // ── 收藏功能 (localStorage) ──
-  var FAVE_KEY = "seoul_cherry_faves";
+  // ── 收藏功能 (localStorage，key 存 spot.id) ──
+  var FAVE_KEY = "korea_flower_faves";
+  var OLD_FAVE_KEY = "seoul_cherry_faves"; // 舊版存 nameKr，一次性 migrate
+  (function migrateOldFaves() {
+    try {
+      if (localStorage.getItem(FAVE_KEY) !== null) return;
+      var old = JSON.parse(localStorage.getItem(OLD_FAVE_KEY));
+      if (!Array.isArray(old)) return;
+      localStorage.setItem(FAVE_KEY, JSON.stringify(FlowerUtils.migrateFaves(old, SPOTS)));
+      localStorage.removeItem(OLD_FAVE_KEY);
+    } catch (e) { /* migration 失敗不阻斷啟動，舊收藏放棄 */ }
+  })();
   function getFaves() {
-    try { return JSON.parse(localStorage.getItem(FAVE_KEY)) || []; } catch(e) { return []; }
+    try {
+      var v = JSON.parse(localStorage.getItem(FAVE_KEY));
+      return Array.isArray(v) ? v : [];
+    } catch (e) { return []; }
   }
-  function toggleFave(nameKr) {
+  function toggleFave(id) {
     var faves = getFaves();
-    var idx = faves.indexOf(nameKr);
-    if (idx === -1) faves.push(nameKr); else faves.splice(idx, 1);
+    var idx = faves.indexOf(id);
+    if (idx === -1) faves.push(id); else faves.splice(idx, 1);
     localStorage.setItem(FAVE_KEY, JSON.stringify(faves));
     updateView();
   }
-  function isFaved(nameKr) { return getFaves().indexOf(nameKr) !== -1; }
+  function isFaved(id) { return getFaves().indexOf(id) !== -1; }
 
   // ── 地圖初始化 ──
   var map = L.map("map", { zoomControl: true }).setView([37.5665, 126.9780], 11);
@@ -122,7 +135,7 @@
       var marker = L.marker([spot.lat, spot.lng], { icon:icon });
       marker.bindPopup(createPopupContent(spot), { maxWidth:280 });
       markerCluster.addLayer(marker);
-      spotMarkers[spot.nameKr] = marker;
+      spotMarkers[spot.id] = marker;
     });
   }
 
@@ -134,7 +147,7 @@
     spots.forEach(function(spot) {
       var cat = getFlowerCategory(spot.flowers);
       var emoji = getMarkerEmoji(cat);
-      var faved = isFaved(spot.nameKr);
+      var faved = isFaved(spot.id);
 
       var card = document.createElement("div");
       card.className = "spot-card" + (faved ? " spot-faved" : "");
@@ -142,7 +155,7 @@
         map.flyTo([spot.lat, spot.lng], 15, { duration:1 });
         window.scrollTo({ top:0, behavior:"smooth" });
         setTimeout(function() {
-          var m = spotMarkers[spot.nameKr];
+          var m = spotMarkers[spot.id];
           if (m) { markerCluster.zoomToShowLayer(m, function() { m.openPopup(); }); }
         }, 1200);
       });
@@ -160,7 +173,7 @@
       faveBtn.className = "fave-btn" + (faved ? " faved" : "");
       faveBtn.textContent = faved ? "❤️" : "🤍";
       faveBtn.title = faved ? "取消收藏" : "收藏";
-      faveBtn.addEventListener("click", function(e) { e.stopPropagation(); toggleFave(spot.nameKr); });
+      faveBtn.addEventListener("click", function(e) { e.stopPropagation(); toggleFave(spot.id); });
       nameRow.appendChild(faveBtn);
       card.appendChild(nameRow);
 
@@ -202,7 +215,7 @@
     return SPOTS.filter(function(spot) {
       var cat = getFlowerCategory(spot.flowers);
       var matchFilter = currentFilter === "all" || currentFilter === "fave" || cat === currentFilter;
-      if (currentFilter === "fave") matchFilter = isFaved(spot.nameKr);
+      if (currentFilter === "fave") matchFilter = isFaved(spot.id);
       if (!matchFilter) return false;
       if (!currentSearch) return true;
       var q = currentSearch.toLowerCase();
@@ -222,7 +235,7 @@
     var filtered = getFilteredSpots();
     filtered.sort(function(a, b) {
       // 收藏優先 → 推薦 → 長度
-      var fa = isFaved(a.nameKr)?1:0, fb = isFaved(b.nameKr)?1:0;
+      var fa = isFaved(a.id)?1:0, fb = isFaved(b.id)?1:0;
       if (fa !== fb) return fb - fa;
       if (a.highlight && !b.highlight) return -1;
       if (!a.highlight && b.highlight) return 1;
