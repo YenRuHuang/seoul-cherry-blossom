@@ -1,10 +1,10 @@
 (function (root) {
   "use strict";
 
-  // "4월중~6월초" -> [4,5,6]; "11월말~3월초" -> [11,12,1,2,3](횡연); 파싱 불가 -> []
+  // "4月中～6月初" → [4,5,6]；"11月末～3月初" → [11,12,1,2,3]（跨年）；解析不到 → []
   function parseBloomMonths(bloom) {
     var nums = [];
-    var re = /(\d{1,2})월/g;
+    var re = /(\d{1,2})月/g;
     var m;
     while ((m = re.exec(bloom)) !== null) nums.push(parseInt(m[1], 10));
     if (nums.length === 0) return [];
@@ -19,7 +19,7 @@
     return months;
   }
 
-  // 구 수집(nameKr 배열) -> 신 수집(id 배열): 이름 충돌 시 첫 건 취득, 중복 제거, 대응 불가 버림
+  // 舊收藏（nameKr 陣列）→ 新收藏（id 陣列）：撞名取第一筆、去重、對不到丟棄
   function migrateFaves(oldNameKrList, spots) {
     var ids = [];
     oldNameKrList.forEach(function (nameKr) {
