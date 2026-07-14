@@ -205,6 +205,9 @@ body {
 .cherry-marker-azalea { background: #f0d0d0; }
 .cherry-marker-tulip { background: #f0dcc8; }
 .cherry-marker-other { background: #d5e8da; }
+.cherry-marker-hydrangea { background: #e3ecfa; border-color: #7c9fe0; }
+.cherry-marker-camellia { background: #f6dfe2; border-color: #c2554f; }
+.cherry-marker-silvergrass { background: #f2ecdc; border-color: #b09a5e; }
 
 /* Cluster */
 .marker-cluster-small { background: rgba(201,86,110,.15) !important; }

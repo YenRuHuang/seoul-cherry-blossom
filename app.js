@@ -70,7 +70,10 @@
 
   // ── 工具 ──
   function getMarkerClass(cat) {
-    return { cherry:"cherry-marker-cherry", forsythia:"cherry-marker-forsythia", azalea:"cherry-marker-azalea", tulip:"cherry-marker-tulip", rapeseed:"cherry-marker-forsythia", other:"cherry-marker-other" }[cat] || "cherry-marker-other";
+    return { cherry:"cherry-marker-cherry", forsythia:"cherry-marker-forsythia", azalea:"cherry-marker-azalea",
+      tulip:"cherry-marker-tulip", rapeseed:"cherry-marker-forsythia", hydrangea:"cherry-marker-hydrangea",
+      camellia:"cherry-marker-camellia", buckwheat:"cherry-marker-other", silvergrass:"cherry-marker-silvergrass",
+      plum:"cherry-marker-cherry", other:"cherry-marker-other" }[cat] || "cherry-marker-other";
   }
   function navGoogle(s) { return "https://www.google.com/maps/dir/?api=1&destination="+s.lat+","+s.lng+"&travelmode=transit"; }
   function navNaver(s) { return "https://map.naver.com/p/search/"+encodeURIComponent(s.nameKr)+"?c="+s.lng+","+s.lat+",15,0,0,0,dh"; }

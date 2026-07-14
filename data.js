@@ -133,6 +133,11 @@ var FLOWER_CATEGORIES = {
   azalea:    { label:"杜鵑花", emoji:"🌺", keywords:["杜鵑花","杜鵑","金達萊","映山紅"] },
   tulip:     { label:"鬱金香", emoji:"🌷", keywords:["鬱金香"] },
   rapeseed:  { label:"油菜花", emoji:"🟡", keywords:["油菜花"] },
+  hydrangea:  { label:"繡球花", emoji:"💠", keywords:["繡球花"] },
+  camellia:   { label:"山茶花", emoji:"🏵️", keywords:["山茶花","冬柏"] },
+  buckwheat:  { label:"蕎麥花", emoji:"🤍", keywords:["蕎麥花"] },
+  silvergrass:{ label:"芒草",   emoji:"🌾", keywords:["芒草","紫芒","粉黛亂子草"] },
+  plum:       { label:"梅花",   emoji:"🌸", keywords:["梅花"] },
   other:     { label:"其他",   emoji:"🌿", keywords:[] }
 };
 
@@ -145,7 +150,7 @@ function getFlowerCategory(flowers) {
   return "other";
 }
 function getMarkerEmoji(cat) {
-  return {cherry:"🌸",forsythia:"💛",azalea:"🌺",tulip:"🌷",rapeseed:"🟡",other:"🌿"}[cat]||"🌸";
+  return {cherry:"🌸",forsythia:"💛",azalea:"🌺",tulip:"🌷",rapeseed:"🟡",hydrangea:"💠",camellia:"🏵️",buckwheat:"🤍",silvergrass:"🌾",plum:"🌸",other:"🌿"}[cat]||"🌸";
 }
 function getTypeEmoji(type) {
   return {"公園":"🌳","街道":"🛣️","河邊":"🌊","綠地":"🌿"}[type]||"📍";
