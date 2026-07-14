@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>首爾賞櫻地圖 2026 — Seoul Cherry Blossom Map</title>
-  <meta name="description" content="2026 首爾櫻花景點互動地圖，75+ 個春花路線，繁體中文介面，專為台灣旅客設計">
-  <meta property="og:title" content="首爾賞櫻地圖 2026 — 台灣人專用繁中版">
-  <meta property="og:description" content="75+ 個首爾春花景點＋地鐵站資訊＋Google/Naver 導航，收藏景點一鍵出發！">
+  <title>韓國花季地圖 — 首爾・濟州・釜山 全年賞花</title>
+  <meta name="description" content="韓國賞花互動地圖：首爾、濟州島、釜山 110+ 花季景點，可切月份看預估花期，繁體中文介面，專為台灣旅客設計">
+  <meta property="og:title" content="韓國花季地圖 — 台灣人專用繁中版">
+  <meta property="og:description" content="首爾・濟州・釜山 110+ 花季景點＋月份預估花期＋Google/Naver 導航，櫻花油菜花繡球花山茶花一站看！">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://cherry.mursfoto.com">
   <meta property="og:image" content="https://cherry.mursfoto.com/og-image.png">
@@ -16,15 +16,15 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;900&family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=3">
+  <link rel="stylesheet" href="style.css?v=4">
 </head>
 <body>
   <header class="header">
     <div class="header-inner">
       <div class="header-left">
-        <p class="header-eyebrow">Seoul Spring 2026</p>
-        <h1>首爾賞櫻地圖</h1>
-        <p class="subtitle">75+ 春花景點 · 地鐵導航 · 繁體中文</p>
+        <p class="header-eyebrow">Korea in Bloom</p>
+        <h1>韓國花季地圖</h1>
+        <p class="subtitle">首爾・濟州・釜山 · 全年花季 · 繁體中文</p>
       </div>
       <div class="share-btns">
         <button class="share-btn" id="shareLine">LINE</button>
@@ -34,6 +34,11 @@
   </header>
 
   <div class="toolbar">
+    <div class="region-bar" id="regionBar">
+      <button class="region-btn active" data-region="seoul">首爾</button>
+      <button class="region-btn" data-region="jeju">濟州島</button>
+      <button class="region-btn" data-region="busan">釜山</button>
+    </div>
     <div class="search-wrap">
       <input type="text" class="search-input" id="searchInput" placeholder="搜尋景點、地鐵站、花種...">
     </div>
@@ -45,7 +50,28 @@
       <button class="filter-btn" data-filter="azalea">杜鵑花</button>
       <button class="filter-btn" data-filter="tulip">鬱金香</button>
       <button class="filter-btn" data-filter="rapeseed">油菜花</button>
+      <button class="filter-btn" data-filter="hydrangea">繡球花</button>
+      <button class="filter-btn" data-filter="camellia">山茶花</button>
+      <button class="filter-btn" data-filter="buckwheat">蕎麥花</button>
+      <button class="filter-btn" data-filter="silvergrass">芒草</button>
+      <button class="filter-btn" data-filter="plum">梅花</button>
       <button class="filter-btn" data-filter="other">其他</button>
+    </div>
+    <div class="month-bar" id="monthBar">
+      <button class="month-btn active" data-month="0">全年</button>
+      <button class="month-btn" data-month="1">1月</button>
+      <button class="month-btn" data-month="2">2月</button>
+      <button class="month-btn" data-month="3">3月</button>
+      <button class="month-btn" data-month="4">4月</button>
+      <button class="month-btn" data-month="5">5月</button>
+      <button class="month-btn" data-month="6">6月</button>
+      <button class="month-btn" data-month="7">7月</button>
+      <button class="month-btn" data-month="8">8月</button>
+      <button class="month-btn" data-month="9">9月</button>
+      <button class="month-btn" data-month="10">10月</button>
+      <button class="month-btn" data-month="11">11月</button>
+      <button class="month-btn" data-month="12">12月</button>
+      <span class="month-hint">預估花期，實際依天氣而定</span>
     </div>
   </div>
 
@@ -87,7 +113,8 @@
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
-  <script src="data.js?v=3"></script>
-  <script src="app.js?v=3"></script>
+  <script src="utils.js?v=1"></script>
+  <script src="data.js?v=5"></script>
+  <script src="app.js?v=5"></script>
 </body>
 </html>

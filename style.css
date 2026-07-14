@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════
-   首爾賞櫻地圖 — Editorial Cartography
+   韓國花季地圖 — Editorial Cartography
    ═══════════════════════════════════════ */
 
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -71,6 +71,17 @@ body {
   background: var(--surface); border-bottom: 1px solid var(--border);
   position: sticky; top: 0; z-index: 999;
 }
+.region-bar { display: flex; gap: 8px; padding: 10px 20px 0; }
+.region-btn {
+  font-family: var(--font-body); font-size: 13px; font-weight: 600;
+  padding: 7px 16px; border: 1px solid var(--border); border-radius: 999px;
+  background: var(--surface); color: var(--text-secondary); cursor: pointer;
+  transition: all .15s;
+}
+.region-btn:hover { border-color: var(--text-tertiary); color: var(--text); }
+.region-btn.active {
+  background: var(--accent); border-color: var(--accent); color: #fff;
+}
 .search-wrap { padding: 10px 20px 0; }
 .search-input {
   width: 100%; padding: 10px 14px;
@@ -101,6 +112,28 @@ body {
 }
 .filter-btn .count { font-size: 10px; opacity: .6; margin-left: 1px; }
 .fave-filter { color: var(--accent-muted); }
+
+.month-bar {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 6px;
+  padding: 0 20px 10px; margin-top: -2px;
+}
+.month-btn {
+  font-family: var(--font-body); font-size: 12px; padding: 5px 10px;
+  border: 1px solid var(--border); border-radius: 999px;
+  background: var(--surface); color: var(--text-secondary); cursor: pointer;
+  transition: all .15s;
+}
+.month-btn:hover { border-color: var(--text-tertiary); color: var(--text); }
+.month-btn.active {
+  background: var(--accent); border-color: var(--accent); color: #fff;
+}
+.month-btn .count { opacity: .65; font-size: 10px; margin-left: 2px; }
+.month-hint { font-size: 11px; color: var(--text-tertiary); margin-left: 4px; }
+
+.empty-state {
+  padding: 40px 16px; text-align: center; color: var(--text-tertiary);
+  font-size: 15px; grid-column: 1 / -1;
+}
 
 /* ═══ Map ═══ */
 #map { width: 100%; height: 56vh; min-height: 280px; border-bottom: 1px solid var(--border); }
@@ -205,6 +238,9 @@ body {
 .cherry-marker-azalea { background: #f0d0d0; }
 .cherry-marker-tulip { background: #f0dcc8; }
 .cherry-marker-other { background: #d5e8da; }
+.cherry-marker-hydrangea { background: #e3ecfa; border-color: #7c9fe0; }
+.cherry-marker-camellia { background: #f6dfe2; border-color: #c2554f; }
+.cherry-marker-silvergrass { background: #f2ecdc; border-color: #b09a5e; }
 
 /* Cluster */
 .marker-cluster-small { background: rgba(201,86,110,.15) !important; }
@@ -292,8 +328,10 @@ body {
 }
 @media (min-width: 768px) {
   .header { padding: 0 32px; }
+  .toolbar .region-bar { padding: 10px 32px 0; }
   .toolbar .search-wrap { padding: 10px 32px 0; }
   .toolbar .filter-bar { padding: 8px 32px 10px; }
+  .toolbar .month-bar { padding: 0 32px 10px; }
   .stats-bar { padding: 8px 32px; }
   .spot-list { padding: 16px 32px 40px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
   .bloom-tip { padding: 20px 32px; }

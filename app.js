@@ -1,20 +1,33 @@
-// 首爾賞櫻地圖 — 主應用程式 v2
+// 韓國花季地圖 — 主應用程式 v2
 (function() {
   "use strict";
 
-  // ── 收藏功能 (localStorage) ──
-  var FAVE_KEY = "seoul_cherry_faves";
+  // ── 收藏功能 (localStorage，key 存 spot.id) ──
+  var FAVE_KEY = "korea_flower_faves";
+  var OLD_FAVE_KEY = "seoul_cherry_faves"; // 舊版存 nameKr，一次性 migrate
+  (function migrateOldFaves() {
+    try {
+      if (localStorage.getItem(FAVE_KEY) !== null) return;
+      var old = JSON.parse(localStorage.getItem(OLD_FAVE_KEY));
+      if (!Array.isArray(old)) return;
+      localStorage.setItem(FAVE_KEY, JSON.stringify(FlowerUtils.migrateFaves(old, SPOTS)));
+      localStorage.removeItem(OLD_FAVE_KEY);
+    } catch (e) { /* migration 失敗不阻斷啟動，舊收藏放棄 */ }
+  })();
   function getFaves() {
-    try { return JSON.parse(localStorage.getItem(FAVE_KEY)) || []; } catch(e) { return []; }
+    try {
+      var v = JSON.parse(localStorage.getItem(FAVE_KEY));
+      return Array.isArray(v) ? v : [];
+    } catch (e) { return []; }
   }
-  function toggleFave(nameKr) {
+  function toggleFave(id) {
     var faves = getFaves();
-    var idx = faves.indexOf(nameKr);
-    if (idx === -1) faves.push(nameKr); else faves.splice(idx, 1);
+    var idx = faves.indexOf(id);
+    if (idx === -1) faves.push(id); else faves.splice(idx, 1);
     localStorage.setItem(FAVE_KEY, JSON.stringify(faves));
     updateView();
   }
-  function isFaved(nameKr) { return getFaves().indexOf(nameKr) !== -1; }
+  function isFaved(id) { return getFaves().indexOf(id) !== -1; }
 
   // ── 地圖初始化 ──
   var map = L.map("map", { zoomControl: true }).setView([37.5665, 126.9780], 11);
@@ -54,10 +67,20 @@
 
   var currentFilter = "all";
   var currentSearch = "";
+  var currentRegion = "seoul";
+  var currentMonth = 0;
+  var REGION_META = {
+    seoul: { label: "首爾", center: [37.5665, 126.978], zoom: 11 },
+    jeju: { label: "濟州島", center: [33.38, 126.55], zoom: 10 },
+    busan: { label: "釜山", center: [35.16, 129.06], zoom: 11 },
+  };
 
   // ── 工具 ──
   function getMarkerClass(cat) {
-    return { cherry:"cherry-marker-cherry", forsythia:"cherry-marker-forsythia", azalea:"cherry-marker-azalea", tulip:"cherry-marker-tulip", rapeseed:"cherry-marker-forsythia", other:"cherry-marker-other" }[cat] || "cherry-marker-other";
+    return { cherry:"cherry-marker-cherry", forsythia:"cherry-marker-forsythia", azalea:"cherry-marker-azalea",
+      tulip:"cherry-marker-tulip", rapeseed:"cherry-marker-forsythia", hydrangea:"cherry-marker-hydrangea",
+      camellia:"cherry-marker-camellia", buckwheat:"cherry-marker-other", silvergrass:"cherry-marker-silvergrass",
+      plum:"cherry-marker-cherry", other:"cherry-marker-other" }[cat] || "cherry-marker-other";
   }
   function navGoogle(s) { return "https://www.google.com/maps/dir/?api=1&destination="+s.lat+","+s.lng+"&travelmode=transit"; }
   function navNaver(s) { return "https://map.naver.com/p/search/"+encodeURIComponent(s.nameKr)+"?c="+s.lng+","+s.lat+",15,0,0,0,dh"; }
@@ -122,7 +145,7 @@
       var marker = L.marker([spot.lat, spot.lng], { icon:icon });
       marker.bindPopup(createPopupContent(spot), { maxWidth:280 });
       markerCluster.addLayer(marker);
-      spotMarkers[spot.nameKr] = marker;
+      spotMarkers[spot.id] = marker;
     });
   }
 
@@ -131,10 +154,24 @@
     var list = document.getElementById("spotList");
     while (list.firstChild) list.removeChild(list.firstChild);
 
+    if (spots.length === 0) {
+      var empty = document.createElement("div");
+      empty.className = "empty-state";
+      if (currentFilter === "fave") {
+        empty.textContent = "還沒有收藏任何景點，點卡片右上角的愛心加入";
+      } else {
+        var regionLabel = REGION_META[currentRegion].label;
+        empty.textContent = currentMonth === 0
+          ? "沒有符合條件的景點，試試清除搜尋或篩選"
+          : currentMonth + "月的" + regionLabel + "沒有預估花季，試試其他區域或月份";
+      }
+      list.appendChild(empty);
+    }
+
     spots.forEach(function(spot) {
       var cat = getFlowerCategory(spot.flowers);
       var emoji = getMarkerEmoji(cat);
-      var faved = isFaved(spot.nameKr);
+      var faved = isFaved(spot.id);
 
       var card = document.createElement("div");
       card.className = "spot-card" + (faved ? " spot-faved" : "");
@@ -142,7 +179,7 @@
         map.flyTo([spot.lat, spot.lng], 15, { duration:1 });
         window.scrollTo({ top:0, behavior:"smooth" });
         setTimeout(function() {
-          var m = spotMarkers[spot.nameKr];
+          var m = spotMarkers[spot.id];
           if (m) { markerCluster.zoomToShowLayer(m, function() { m.openPopup(); }); }
         }, 1200);
       });
@@ -160,7 +197,7 @@
       faveBtn.className = "fave-btn" + (faved ? " faved" : "");
       faveBtn.textContent = faved ? "❤️" : "🤍";
       faveBtn.title = faved ? "取消收藏" : "收藏";
-      faveBtn.addEventListener("click", function(e) { e.stopPropagation(); toggleFave(spot.nameKr); });
+      faveBtn.addEventListener("click", function(e) { e.stopPropagation(); toggleFave(spot.id); });
       nameRow.appendChild(faveBtn);
       card.appendChild(nameRow);
 
@@ -199,11 +236,16 @@
 
   // ── 篩選 ──
   function getFilteredSpots() {
+    var faveMode = currentFilter === "fave";
     return SPOTS.filter(function(spot) {
-      var cat = getFlowerCategory(spot.flowers);
-      var matchFilter = currentFilter === "all" || currentFilter === "fave" || cat === currentFilter;
-      if (currentFilter === "fave") matchFilter = isFaved(spot.nameKr);
-      if (!matchFilter) return false;
+      if (faveMode) {
+        // 收藏檢視：跨區域、不受月份限制，呈現使用者完整的行程收藏
+        if (!isFaved(spot.id)) return false;
+      } else {
+        if (spot.region !== currentRegion) return false;
+        if (currentMonth !== 0 && spot._months.indexOf(currentMonth) === -1) return false;
+        if (currentFilter !== "all" && !spotInCategory(spot, currentFilter)) return false;
+      }
       if (!currentSearch) return true;
       var q = currentSearch.toLowerCase();
       return (
@@ -222,7 +264,7 @@
     var filtered = getFilteredSpots();
     filtered.sort(function(a, b) {
       // 收藏優先 → 推薦 → 長度
-      var fa = isFaved(a.nameKr)?1:0, fb = isFaved(b.nameKr)?1:0;
+      var fa = isFaved(a.id)?1:0, fb = isFaved(b.id)?1:0;
       if (fa !== fb) return fb - fa;
       if (a.highlight && !b.highlight) return -1;
       if (!a.highlight && b.highlight) return 1;
@@ -251,6 +293,32 @@
     updateView();
   });
 
+  document.getElementById("regionBar").addEventListener("click", function (e) {
+    var btn = e.target.closest(".region-btn");
+    if (!btn) return;
+    var region = btn.getAttribute("data-region");
+    if (region === currentRegion) return;
+    currentRegion = region;
+    var btns = document.querySelectorAll(".region-btn");
+    for (var i = 0; i < btns.length; i++) btns[i].classList.remove("active");
+    btn.classList.add("active");
+    var meta = REGION_META[region];
+    map.flyTo(meta.center, meta.zoom, { duration: 1.2 });
+    updateFilterCounts();
+    updateMonthCounts();
+    updateView();
+  });
+
+  document.getElementById("monthBar").addEventListener("click", function (e) {
+    var btn = e.target.closest(".month-btn");
+    if (!btn) return;
+    var btns = document.querySelectorAll(".month-btn");
+    for (var i = 0; i < btns.length; i++) btns[i].classList.remove("active");
+    btn.classList.add("active");
+    currentMonth = parseInt(btn.getAttribute("data-month"), 10);
+    updateView();
+  });
+
   document.getElementById("scrollTop").addEventListener("click", function() {
     window.scrollTo({ top:0, behavior:"smooth" });
   });
@@ -263,7 +331,7 @@
   var shareLineBtn = document.getElementById("shareLine");
   var shareCopyBtn = document.getElementById("shareCopy");
   var pageUrl = window.location.href;
-  var shareText = "🌸 首爾賞櫻地圖 2026 — 75+ 個春花景點，繁中介面，專為台灣旅客！";
+  var shareText = "🌸 韓國花季地圖 — 首爾・濟州・釜山 110+ 賞花景點，切月份看預估花期，專為台灣旅客！";
 
   if (shareLineBtn) {
     shareLineBtn.addEventListener("click", function() {
@@ -285,27 +353,46 @@
 
   // 篩選計數
   function updateFilterCounts() {
-    var counts = { all: SPOTS.length };
-    SPOTS.forEach(function(s) {
-      var cat = getFlowerCategory(s.flowers);
-      counts[cat] = (counts[cat] || 0) + 1;
+    var regionSpots = SPOTS.filter(function (s) { return s.region === currentRegion; });
+    var counts = { all: regionSpots.length };
+    Object.keys(FLOWER_CATEGORIES).forEach(function (key) {
+      counts[key] = regionSpots.filter(function (s) { return spotInCategory(s, key); }).length;
     });
     var btns = document.querySelectorAll(".filter-btn");
     for (var i=0; i<btns.length; i++) {
       var f = btns[i].getAttribute("data-filter");
       if (f === "fave") continue;
-      if (counts[f] !== undefined) {
-        var text = btns[i].textContent.replace(/\s*\d+$/, "");
-        var span = document.createElement("span");
-        span.className = "count";
-        span.textContent = counts[f];
-        btns[i].textContent = text + " ";
-        btns[i].appendChild(span);
-      }
+      var text = btns[i].textContent.replace(/\s*\d+$/, "");
+      var span = document.createElement("span");
+      span.className = "count";
+      span.textContent = counts[f] || 0;
+      btns[i].textContent = text + " ";
+      btns[i].appendChild(span);
+    }
+  }
+
+  // 月份 chips 計數
+  function updateMonthCounts() {
+    var btns = document.querySelectorAll(".month-btn");
+    for (var i = 0; i < btns.length; i++) {
+      var m = parseInt(btns[i].getAttribute("data-month"), 10);
+      if (m === 0) continue;
+      var n = SPOTS.filter(function (s) {
+        return s.region === currentRegion && s._months.indexOf(m) !== -1;
+      }).length;
+      var base = btns[i].textContent.replace(/\s*\d+$/, "");
+      var span = document.createElement("span");
+      span.className = "count";
+      span.textContent = n;
+      btns[i].textContent = base + " ";
+      btns[i].appendChild(span);
     }
   }
 
   // ── 啟動 ──
+  // 預計算每筆 spot 的預估開花月份（避免每次 filter 重解析）
+  SPOTS.forEach(function (s) { s._months = FlowerUtils.parseBloomMonths(s.bloom); });
   updateFilterCounts();
+  updateMonthCounts();
   updateView();
 })();

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<title>og-image-source</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;900&family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf9f7;
+    --surface: #ffffff;
+    --surface-warm: #fdfcfa;
+    --border: #eae8e4;
+    --text: #1a1a1a;
+    --text-secondary: #6b6560;
+    --text-tertiary: #9e9890;
+    --accent: #c9566e;
+    --accent-light: #f5e6ea;
+    --accent-muted: #d4899a;
+    --font-display: 'Noto Serif TC', 'Georgia', serif;
+    --font-body: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    width: 1200px; height: 630px;
+    overflow: hidden;
+    font-family: var(--font-body);
+  }
+  .card {
+    width: 1200px; height: 630px;
+    position: relative;
+    background:
+      radial-gradient(ellipse 700px 500px at 88% 12%, rgba(201,86,110,.10), transparent 60%),
+      radial-gradient(ellipse 600px 420px at 10% 92%, rgba(212,137,154,.12), transparent 60%),
+      linear-gradient(180deg, var(--bg) 0%, var(--surface-warm) 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 96px;
+  }
+  .card::before {
+    content: "";
+    position: absolute; inset: 28px;
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    pointer-events: none;
+  }
+  .motif {
+    position: absolute;
+    font-size: 64px;
+    opacity: .5;
+    filter: drop-shadow(0 4px 10px rgba(0,0,0,.05));
+  }
+  .motif-1 { top: 66px; right: 96px; font-size: 74px; }
+  .motif-2 { bottom: 78px; right: 190px; font-size: 46px; opacity: .38; }
+  .motif-3 { top: 96px; right: 236px; font-size: 34px; opacity: .3; }
+
+  .eyebrow {
+    font-size: 15px; letter-spacing: 5px; text-transform: uppercase;
+    color: var(--accent); font-weight: 600;
+    margin-bottom: 20px;
+  }
+  h1 {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 92px;
+    line-height: 1.12;
+    color: var(--text);
+    letter-spacing: -1px;
+    max-width: 860px;
+  }
+  .subtitle {
+    margin-top: 22px;
+    font-size: 30px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    letter-spacing: 0.2px;
+  }
+  .subtitle .dot { color: var(--accent-muted); margin: 0 4px; }
+
+  .tags {
+    margin-top: 34px;
+    display: flex; gap: 10px;
+  }
+  .tag {
+    padding: 8px 18px;
+    border-radius: 999px;
+    background: var(--accent-light);
+    color: var(--accent);
+    font-size: 17px;
+    font-weight: 600;
+    border: 1px solid #e8cdd4;
+  }
+
+  .footer-brand {
+    position: absolute;
+    left: 96px; bottom: 56px;
+    font-size: 16px;
+    color: var(--text-tertiary);
+    letter-spacing: 1px;
+    font-weight: 500;
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="motif motif-1">🌸</div>
+    <div class="motif motif-2">💠</div>
+    <div class="motif motif-3">🏵️</div>
+
+    <p class="eyebrow">Korea in Bloom</p>
+    <h1>韓國花季地圖</h1>
+    <p class="subtitle">首爾<span class="dot">・</span>濟州<span class="dot">・</span>釜山　全年花季</p>
+    <div class="tags">
+      <span class="tag">110+ 景點</span>
+      <span class="tag">月份花期</span>
+      <span class="tag">繁體中文</span>
+    </div>
+
+    <p class="footer-brand">cherry.mursfoto.com</p>
+  </div>
+</body>
+</html>
