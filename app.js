@@ -1,4 +1,4 @@
-// 首爾賞櫻地圖 — 主應用程式 v2
+// 韓國花季地圖 — 主應用程式 v2
 (function() {
   "use strict";
 
@@ -324,7 +324,7 @@
   var shareLineBtn = document.getElementById("shareLine");
   var shareCopyBtn = document.getElementById("shareCopy");
   var pageUrl = window.location.href;
-  var shareText = "🌸 首爾賞櫻地圖 2026 — 75+ 個春花景點，繁中介面，專為台灣旅客！";
+  var shareText = "🌸 韓國花季地圖 — 首爾・濟州・釜山 110+ 賞花景點，切月份看預估花期，專為台灣旅客！";
 
   if (shareLineBtn) {
     shareLineBtn.addEventListener("click", function() {
