@@ -152,7 +152,25 @@ var SPOTS = [
   { id:"jeju-21", region:"jeju", name:"山茶花森林", nameKr:"동백포레스트", district:"西歸浦市南元邑", districtKr:"서귀포시 남원읍", flowers:["山茶花"], bloom:"11月末～2月末", length:0.4, type:"公園", lat:33.2900, lng:126.6520, note:"圓形山茶樹網美拍照點", subway:"建議自駕", subwayKr:"동백포레스트" },
   { id:"jeju-22", region:"jeju", name:"石牆花路（吾羅洞櫻花）", nameKr:"오라동 벚꽃길", district:"濟州市", districtKr:"제주시", flowers:["櫻花"], bloom:"3月末～4月初", length:1.0, type:"街道", lat:33.4870, lng:126.5100, subway:"公車 240", subwayKr:"오라동", pop:"hidden" },
   { id:"jeju-23", region:"jeju", name:"廣令梅花村", nameKr:"광령리 매화", district:"濟州市涯月邑", districtKr:"제주시 애월읍", flowers:["梅花"], bloom:"2月初～3月初", length:0.5, type:"綠地", lat:33.4650, lng:126.4340, subway:"建議自駕", subwayKr:"광령리" },
-  { id:"jeju-24", region:"jeju", name:"杭波頭里海岸油菜花", nameKr:"항파두리 유채꽃", district:"濟州市涯月邑", districtKr:"제주시 애월읍", flowers:["油菜花"], bloom:"3月初～4月中", length:0.7, type:"綠地", lat:33.4520, lng:126.4110, subway:"公車 291", subwayKr:"항파두리" }
+  { id:"jeju-24", region:"jeju", name:"杭波頭里海岸油菜花", nameKr:"항파두리 유채꽃", district:"濟州市涯月邑", districtKr:"제주시 애월읍", flowers:["油菜花"], bloom:"3月初～4月中", length:0.7, type:"綠地", lat:33.4520, lng:126.4110, subway:"公車 291", subwayKr:"항파두리" },
+  // === 釜山（春） ===
+  { id:"busan-01", region:"busan", name:"★ 溫泉川櫻花路", nameKr:"온천천 벚꽃길", district:"東萊區", districtKr:"동래구", flowers:["櫻花"], bloom:"3月末～4月初", length:3.0, type:"河邊", lat:35.2140, lng:129.0855, highlight:true, note:"市區最長櫻花河岸，地鐵直達", subway:"溫泉場站 1號線", subwayKr:"온천장역 1호선", pop:"hot" },
+  { id:"busan-02", region:"busan", name:"南川洞櫻花街", nameKr:"남천동 벚꽃거리", district:"水營區", districtKr:"수영구", flowers:["櫻花"], bloom:"3月末～4月初", length:1.0, type:"街道", lat:35.1420, lng:129.1110, note:"公寓社區櫻花隧道，廣安大橋旁", subway:"金蓮山站 2號線", subwayKr:"금련산역 2호선", pop:"hot" },
+  { id:"busan-03", region:"busan", name:"三樂生態公園", nameKr:"삼락생태공원", district:"沙上區", districtKr:"사상구", flowers:["櫻花","油菜花"], bloom:"3月末～4月中", length:4.0, type:"河邊", lat:35.1780, lng:128.9640, note:"洛東江畔櫻花＋油菜花同框", subway:"沙上站 2號線步行 15 分", subwayKr:"사상역 2호선" },
+  { id:"busan-04", region:"busan", name:"迎月嶺", nameKr:"달맞이길", district:"海雲台區", districtKr:"해운대구", flowers:["櫻花"], bloom:"3月末～4月初", length:2.2, type:"街道", lat:35.1590, lng:129.1760, note:"海雲台看海賞櫻山路", subway:"中洞站 2號線", subwayKr:"중동역 2호선" },
+  { id:"busan-05", region:"busan", name:"開琴櫻花文化路", nameKr:"개금벚꽃문화길", district:"釜山鎮區", districtKr:"부산진구", flowers:["櫻花"], bloom:"3月末～4月初", length:1.2, type:"街道", lat:35.1520, lng:129.0230, subway:"開琴站 2號線", subwayKr:"개금역 2호선", pop:"hidden" },
+  { id:"busan-06", region:"busan", name:"民主公園", nameKr:"민주공원", district:"中區", districtKr:"중구", flowers:["櫻花"], bloom:"3月末～4月初", length:0.8, type:"公園", lat:35.1120, lng:129.0330, note:"可俯瞰釜山港的山上公園", subway:"公車 190 民主公園下車", subwayKr:"민주공원" },
+  { id:"busan-07", region:"busan", name:"★ 大渚生態公園油菜花", nameKr:"대저생태공원 유채꽃", district:"江西區", districtKr:"강서구", flowers:["油菜花"], bloom:"3月末～4月中", length:3.0, type:"河邊", lat:35.2107, lng:128.9889, highlight:true, note:"洛東江邊 76 萬坪油菜花海（油菜花節）", subway:"江西區廳站 3號線", subwayKr:"강서구청역 3호선", pop:"hot" },
+  { id:"busan-08", region:"busan", name:"荒嶺山櫻花路", nameKr:"황령산 벚꽃길", district:"釜山鎮區", districtKr:"부산진구", flowers:["櫻花"], bloom:"3月末～4月初", length:2.5, type:"街道", lat:35.1560, lng:129.0900, note:"夜景名所的環山櫻花道", subway:"建議自駕或計程車", subwayKr:"황령산" },
+  // === 釜山（秋冬） ===
+  { id:"busan-09", region:"busan", name:"勝鶴山芒草", nameKr:"승학산 억새", district:"沙下區", districtKr:"사하구", flowers:["芒草"], bloom:"9月末～11月中", length:1.5, type:"綠地", lat:35.1110, lng:128.9820, note:"釜山最大芒草平原", subway:"當里站 1號線後登山 1hr", subwayKr:"당리역 1호선" },
+  { id:"busan-10", region:"busan", name:"冬柏島", nameKr:"동백섬", district:"海雲台區", districtKr:"해운대구", flowers:["山茶花"], bloom:"12月初～3月中", length:1.0, type:"公園", lat:35.1530, lng:129.1520, note:"海雲台旁山茶花海岸步道（APEC 世峰樓）", subway:"冬柏站 2號線", subwayKr:"동백역 2호선" },
+  { id:"busan-11", region:"busan", name:"UN 雕塑公園山茶花", nameKr:"유엔조각공원 동백", district:"南區", districtKr:"남구", flowers:["山茶花"], bloom:"12月初～3月初", length:0.6, type:"公園", lat:35.1270, lng:129.0980, subway:"大淵站 2號線", subwayKr:"대연역 2호선", pop:"hidden" },
+  { id:"busan-12", region:"busan", name:"梵魚寺梅花", nameKr:"범어사 매화", district:"金井區", districtKr:"금정구", flowers:["梅花"], bloom:"2月末～3月末", length:0.5, type:"公園", lat:35.2840, lng:129.0680, note:"千年古剎早春梅花", subway:"梵魚寺站 1號線轉公車 90", subwayKr:"범어사역 1호선" },
+  // === 鎮海（釜山近郊，行政屬昌原市） ===
+  { id:"busan-13", region:"busan", name:"★ 鎮海余佐川櫻花道", nameKr:"진해 여좌천 벚꽃길", district:"鎮海（近郊）", districtKr:"창원시 진해구", flowers:["櫻花"], bloom:"3月末～4月初", length:1.5, type:"河邊", lat:35.1570, lng:128.6597, highlight:true, note:"韓國最有名櫻花祭「軍港節」主場！羅曼史橋夜櫻", subway:"釜山西部巴士站搭市外巴士約 50 分", subwayKr:"여좌천", pop:"hot" },
+  { id:"busan-14", region:"busan", name:"★ 鎮海慶和站櫻花路", nameKr:"진해 경화역 벚꽃길", district:"鎮海（近郊）", districtKr:"창원시 진해구", flowers:["櫻花"], bloom:"3月末～4月初", length:0.8, type:"街道", lat:35.1592, lng:128.6860, highlight:true, note:"廢棄鐵道兩側 800m 櫻花隧道，經典鐵軌照", subway:"釜山西部巴士站搭市外巴士約 50 分", subwayKr:"경화역", pop:"hot" },
+  { id:"busan-15", region:"busan", name:"鎮海帝皇山公園", nameKr:"진해 제황산공원", district:"鎮海（近郊）", districtKr:"창원시 진해구", flowers:["櫻花"], bloom:"3月末～4月初", length:0.6, type:"公園", lat:35.1487, lng:128.6647, note:"365 階或單軌車上山俯瞰鎮海櫻花全景", subway:"鎮海市外巴士站步行 15 分", subwayKr:"제황산공원" }
 ];
 
 // 花種分類
