@@ -1,2 +1,4 @@
-preview.png
 .firecrawl/
+.superpowers/
+node_modules/
+preview.png
