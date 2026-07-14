@@ -123,7 +123,36 @@ var SPOTS = [
   { id:"seoul-71", region:"seoul", name:"香草天文公園", nameKr:"허브천문공원", district:"江東區", districtKr:"강동구", flowers:["薰衣草"], bloom:"4月初～6月初", length:0.3, type:"公園", lat:37.5330, lng:127.1410, subway:"明逸站 5號線", subwayKr:"명일역 5호선" },
 
   // === 果川市 ===
-  { id:"seoul-72", region:"seoul", name:"★ 首爾大公園", nameKr:"서울대공원", district:"果川市", districtKr:"경기도 과천시", flowers:["櫻花","鬱金香"], bloom:"4月中～5月末", length:7.0, type:"公園", lat:37.4270, lng:127.0130, highlight:true, note:"首爾近郊最大！7公里櫻花步道＋鬱金香花海", subway:"大公園站 4號線", subwayKr:"대공원역 4호선", pop:"hot" }
+  { id:"seoul-72", region:"seoul", name:"★ 首爾大公園", nameKr:"서울대공원", district:"果川市", districtKr:"경기도 과천시", flowers:["櫻花","鬱金香"], bloom:"4月中～5月末", length:7.0, type:"公園", lat:37.4270, lng:127.0130, highlight:true, note:"首爾近郊最大！7公里櫻花步道＋鬱金香花海", subway:"大公園站 4號線", subwayKr:"대공원역 4호선", pop:"hot" },
+
+  // === 濟州市（春） ===
+  { id:"jeju-01", region:"jeju", name:"★ 典農路櫻花街", nameKr:"전농로 벚꽃길", district:"濟州市", districtKr:"제주시", flowers:["櫻花"], bloom:"3月末～4月初", length:1.2, type:"街道", lat:33.5066, lng:126.5224, highlight:true, note:"濟州王櫻花祭主場地，晚上有夜櫻點燈", subway:"濟州市外巴士站步行 10 分", subwayKr:"제주시외버스터미널", pop:"hot" },
+  { id:"jeju-02", region:"jeju", name:"濟州大學櫻花路", nameKr:"제주대학로 벚꽃길", district:"濟州市", districtKr:"제주시", flowers:["櫻花"], bloom:"3月末～4月初", length:1.5, type:"街道", lat:33.4560, lng:126.5620, note:"王櫻花自生地，樹齡高花冠大", subway:"公車 355·356 濟州大學下車", subwayKr:"제주대학교" },
+  { id:"jeju-03", region:"jeju", name:"新山公園", nameKr:"신산공원", district:"濟州市", districtKr:"제주시", flowers:["櫻花"], bloom:"3月末～4月初", length:1.0, type:"公園", lat:33.5060, lng:126.5330, subway:"公車 325·326 文藝會館下車", subwayKr:"제주문예회관" },
+  { id:"jeju-04", region:"jeju", name:"漢拏樹木園", nameKr:"한라수목원", district:"濟州市", districtKr:"제주시", flowers:["櫻花","迎春花"], bloom:"3月末～4月中", length:2.0, type:"公園", lat:33.4690, lng:126.4940, subway:"公車 331·332 漢拏樹木園下車", subwayKr:"한라수목원" },
+  { id:"jeju-05", region:"jeju", name:"涯月長田里櫻花路", nameKr:"애월읍 장전리 벚꽃길", district:"濟州市涯月邑", districtKr:"제주시 애월읍", flowers:["櫻花"], bloom:"3月末～4月初", length:1.0, type:"街道", lat:33.4570, lng:126.3560, note:"在地人賞櫻路線，遊客較少", subway:"建議自駕", subwayKr:"장전리", pop:"hidden" },
+  { id:"jeju-06", region:"jeju", name:"★ 鹿山路", nameKr:"녹산로", district:"濟州市朝天邑", districtKr:"제주시 조천읍", flowers:["櫻花","油菜花"], bloom:"3月末～4月中", length:10.0, type:"街道", lat:33.4330, lng:126.7248, highlight:true, note:"韓國最美道路之一！櫻花＋油菜花同框 10 公里", subway:"建議自駕（鄰近旌義航空館）", subwayKr:"녹산로", pop:"hot" },
+  { id:"jeju-07", region:"jeju", name:"★ 山房山油菜花田", nameKr:"산방산 유채꽃밭", district:"西歸浦市安德面", districtKr:"서귀포시 안덕면", flowers:["油菜花"], bloom:"2月末～4月中", length:0.5, type:"綠地", lat:33.2370, lng:126.3130, highlight:true, note:"山房山為背景的油菜花海，付費入場拍照", subway:"公車 202 山房山下車", subwayKr:"산방산", pop:"hot" },
+  { id:"jeju-08", region:"jeju", name:"城山日出峰油菜花", nameKr:"성산일출봉 유채꽃", district:"西歸浦市城山邑", districtKr:"서귀포시 성산읍", flowers:["油菜花"], bloom:"3月初～4月中", length:0.8, type:"綠地", lat:33.4580, lng:126.9370, note:"世界自然遺產日出峰山腳", subway:"公車 201 城山日出峰入口", subwayKr:"성산일출봉" },
+  { id:"jeju-09", region:"jeju", name:"咸德犀牛峰", nameKr:"함덕 서우봉", district:"濟州市朝天邑", districtKr:"제주시 조천읍", flowers:["油菜花"], bloom:"3月初～4月末", length:1.0, type:"綠地", lat:33.5430, lng:126.6720, note:"翡翠色咸德海灘旁的油菜花坡", subway:"公車 201 咸德海水浴場", subwayKr:"함덕해수욕장" },
+  { id:"jeju-10", region:"jeju", name:"三姓穴", nameKr:"삼성혈", district:"濟州市", districtKr:"제주시", flowers:["櫻花","梅花"], bloom:"2月末～4月初", length:0.5, type:"公園", lat:33.5040, lng:126.5290, subway:"公車 332 三姓穴下車", subwayKr:"삼성혈" },
+  // === 濟州（夏：繡球花） ===
+  { id:"jeju-11", region:"jeju", name:"★ 終達里繡球花路", nameKr:"종달리 수국길", district:"濟州市舊左邑", districtKr:"제주시 구좌읍", flowers:["繡球花"], bloom:"6月初～7月初", length:2.0, type:"街道", lat:33.5090, lng:126.9093, highlight:true, note:"海岸公路旁綿延繡球花牆", subway:"建議自駕", subwayKr:"종달리", pop:"hot" },
+  { id:"jeju-12", region:"jeju", name:"婚姻池繡球花", nameKr:"혼인지 수국", district:"西歸浦市城山邑", districtKr:"서귀포시 성산읍", flowers:["繡球花"], bloom:"6月初～7月初", length:0.6, type:"公園", lat:33.4360, lng:126.8940, note:"傳統婚禮聖地，免費入場", subway:"公車 201 轉 722-2", subwayKr:"혼인지" },
+  { id:"jeju-13", region:"jeju", name:"馬諾爾莊園", nameKr:"마노르블랑", district:"西歸浦市安德面", districtKr:"서귀포시 안덕면", flowers:["繡球花","粉黛亂子草"], bloom:"6月初～10月末", length:0.3, type:"公園", lat:33.2560, lng:126.3490, note:"咖啡園庭院，夏繡球秋粉黛", subway:"建議自駕", subwayKr:"마노르블랑" },
+  { id:"jeju-14", region:"jeju", name:"安德面繡球花路", nameKr:"안덕면 수국길", district:"西歸浦市安德面", districtKr:"서귀포시 안덕면", flowers:["繡球花"], bloom:"6月初～7月初", length:1.5, type:"街道", lat:33.2550, lng:126.3300, note:"病院路兩側繡球花道", subway:"建議自駕", subwayKr:"안덕면 수국길", pop:"hidden" },
+  // === 濟州（秋） ===
+  { id:"jeju-15", region:"jeju", name:"吾羅洞蕎麥花田", nameKr:"오라동 메밀밭", district:"濟州市", districtKr:"제주시", flowers:["蕎麥花"], bloom:"9月初～10月中", length:1.0, type:"綠地", lat:33.4470, lng:126.4950, note:"漢拏山山腰白色花海（春秋兩季）", subway:"建議自駕", subwayKr:"오라동 메밀밭" },
+  { id:"jeju-16", region:"jeju", name:"★ 新星岳芒草", nameKr:"새별오름 억새", district:"濟州市涯月邑", districtKr:"제주시 애월읍", flowers:["芒草"], bloom:"10月初～11月末", length:1.5, type:"綠地", lat:33.3650, lng:126.3560, highlight:true, note:"夕陽時整座寄生火山被芒草染金", subway:"建議自駕", subwayKr:"새별오름", pop:"hot" },
+  { id:"jeju-17", region:"jeju", name:"山君不離", nameKr:"산굼부리", district:"濟州市朝天邑", districtKr:"제주시 조천읍", flowers:["芒草"], bloom:"10月初～11月末", length:1.2, type:"公園", lat:33.4340, lng:126.6850, note:"火山口環繞芒草原，付費入場", subway:"公車 212·222", subwayKr:"산굼부리" },
+  { id:"jeju-18", region:"jeju", name:"休愛里自然生活公園", nameKr:"휴애리 자연생활공원", district:"西歸浦市南元邑", districtKr:"서귀포시 남원읍", flowers:["粉黛亂子草","梅花","繡球花"], bloom:"9月末～11月中", length:0.8, type:"公園", lat:33.2790, lng:126.6280, note:"四季花園：2-3月梅花、6月繡球、秋粉黛", subway:"公車 231", subwayKr:"휴애리" },
+  // === 濟州（冬：山茶花） ===
+  { id:"jeju-19", region:"jeju", name:"★ 山茶花之丘", nameKr:"카멜리아힐", district:"西歸浦市安德面", districtKr:"서귀포시 안덕면", flowers:["山茶花","繡球花"], bloom:"11月末～3月初", length:1.0, type:"公園", lat:33.2891, lng:126.3701, highlight:true, note:"6 萬坪山茶花庭園，冬季必訪", subway:"公車 752-2 上倉里下車", subwayKr:"카멜리아힐", pop:"hot" },
+  { id:"jeju-20", region:"jeju", name:"為美里山茶花群落", nameKr:"위미 동백나무 군락지", district:"西歸浦市南元邑", districtKr:"서귀포시 남원읍", flowers:["山茶花"], bloom:"12月初～2月末", length:0.5, type:"綠地", lat:33.2740, lng:126.6660, note:"百年山茶樹古群落", subway:"公車 231 為美里下車", subwayKr:"위미리", pop:"hidden" },
+  { id:"jeju-21", region:"jeju", name:"山茶花森林", nameKr:"동백포레스트", district:"西歸浦市南元邑", districtKr:"서귀포시 남원읍", flowers:["山茶花"], bloom:"11月末～2月末", length:0.4, type:"公園", lat:33.2900, lng:126.6520, note:"圓形山茶樹網美拍照點", subway:"建議自駕", subwayKr:"동백포레스트" },
+  { id:"jeju-22", region:"jeju", name:"石牆花路（吾羅洞櫻花）", nameKr:"오라동 벚꽃길", district:"濟州市", districtKr:"제주시", flowers:["櫻花"], bloom:"3月末～4月初", length:1.0, type:"街道", lat:33.4870, lng:126.5100, subway:"公車 240", subwayKr:"오라동", pop:"hidden" },
+  { id:"jeju-23", region:"jeju", name:"廣令梅花村", nameKr:"광령리 매화", district:"濟州市涯月邑", districtKr:"제주시 애월읍", flowers:["梅花"], bloom:"2月初～3月初", length:0.5, type:"綠地", lat:33.4650, lng:126.4340, subway:"建議自駕", subwayKr:"광령리" },
+  { id:"jeju-24", region:"jeju", name:"杭波頭里海岸油菜花", nameKr:"항파두리 유채꽃", district:"濟州市涯月邑", districtKr:"제주시 애월읍", flowers:["油菜花"], bloom:"3月初～4月中", length:0.7, type:"綠地", lat:33.4520, lng:126.4110, subway:"公車 291", subwayKr:"항파두리" }
 ];
 
 // 花種分類
