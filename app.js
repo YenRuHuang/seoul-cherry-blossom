@@ -68,6 +68,7 @@
   var currentFilter = "all";
   var currentSearch = "";
   var currentRegion = "seoul";
+  var currentMonth = 0;
   var REGION_META = {
     seoul: { label: "首爾", center: [37.5665, 126.978], zoom: 11 },
     jeju: { label: "濟州島", center: [33.38, 126.55], zoom: 10 },
@@ -153,6 +154,16 @@
     var list = document.getElementById("spotList");
     while (list.firstChild) list.removeChild(list.firstChild);
 
+    if (spots.length === 0) {
+      var empty = document.createElement("div");
+      empty.className = "empty-state";
+      var regionLabel = REGION_META[currentRegion].label;
+      empty.textContent = currentMonth === 0
+        ? "沒有符合條件的景點，試試清除搜尋或篩選"
+        : currentMonth + "月的" + regionLabel + "沒有預估花季，試試其他區域或月份";
+      list.appendChild(empty);
+    }
+
     spots.forEach(function(spot) {
       var cat = getFlowerCategory(spot.flowers);
       var emoji = getMarkerEmoji(cat);
@@ -223,6 +234,7 @@
   function getFilteredSpots() {
     return SPOTS.filter(function(spot) {
       if (spot.region !== currentRegion) return false;
+      if (currentMonth !== 0 && spot._months.indexOf(currentMonth) === -1) return false;
       var cat = getFlowerCategory(spot.flowers);
       var matchFilter = currentFilter === "all" || currentFilter === "fave" || cat === currentFilter;
       if (currentFilter === "fave") matchFilter = isFaved(spot.id);
@@ -286,6 +298,17 @@
     var meta = REGION_META[region];
     map.flyTo(meta.center, meta.zoom, { duration: 1.2 });
     updateFilterCounts();
+    updateMonthCounts();
+    updateView();
+  });
+
+  document.getElementById("monthBar").addEventListener("click", function (e) {
+    var btn = e.target.closest(".month-btn");
+    if (!btn) return;
+    var btns = document.querySelectorAll(".month-btn");
+    for (var i = 0; i < btns.length; i++) btns[i].classList.remove("active");
+    btn.classList.add("active");
+    currentMonth = parseInt(btn.getAttribute("data-month"), 10);
     updateView();
   });
 
@@ -342,7 +365,28 @@
     }
   }
 
+  // 月份 chips 計數
+  function updateMonthCounts() {
+    var btns = document.querySelectorAll(".month-btn");
+    for (var i = 0; i < btns.length; i++) {
+      var m = parseInt(btns[i].getAttribute("data-month"), 10);
+      if (m === 0) continue;
+      var n = SPOTS.filter(function (s) {
+        return s.region === currentRegion && s._months.indexOf(m) !== -1;
+      }).length;
+      var base = btns[i].textContent.replace(/\s*\d+$/, "");
+      var span = document.createElement("span");
+      span.className = "count";
+      span.textContent = n;
+      btns[i].textContent = base + " ";
+      btns[i].appendChild(span);
+    }
+  }
+
   // ── 啟動 ──
+  // 預計算每筆 spot 的預估開花月份（避免每次 filter 重解析）
+  SPOTS.forEach(function (s) { s._months = FlowerUtils.parseBloomMonths(s.bloom); });
   updateFilterCounts();
+  updateMonthCounts();
   updateView();
 })();
