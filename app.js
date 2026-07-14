@@ -157,10 +157,14 @@
     if (spots.length === 0) {
       var empty = document.createElement("div");
       empty.className = "empty-state";
-      var regionLabel = REGION_META[currentRegion].label;
-      empty.textContent = currentMonth === 0
-        ? "沒有符合條件的景點，試試清除搜尋或篩選"
-        : currentMonth + "月的" + regionLabel + "沒有預估花季，試試其他區域或月份";
+      if (currentFilter === "fave") {
+        empty.textContent = "還沒有收藏任何景點，點卡片右上角的愛心加入";
+      } else {
+        var regionLabel = REGION_META[currentRegion].label;
+        empty.textContent = currentMonth === 0
+          ? "沒有符合條件的景點，試試清除搜尋或篩選"
+          : currentMonth + "月的" + regionLabel + "沒有預估花季，試試其他區域或月份";
+      }
       list.appendChild(empty);
     }
 
@@ -232,13 +236,16 @@
 
   // ── 篩選 ──
   function getFilteredSpots() {
+    var faveMode = currentFilter === "fave";
     return SPOTS.filter(function(spot) {
-      if (spot.region !== currentRegion) return false;
-      if (currentMonth !== 0 && spot._months.indexOf(currentMonth) === -1) return false;
-      var cat = getFlowerCategory(spot.flowers);
-      var matchFilter = currentFilter === "all" || currentFilter === "fave" || cat === currentFilter;
-      if (currentFilter === "fave") matchFilter = isFaved(spot.id);
-      if (!matchFilter) return false;
+      if (faveMode) {
+        // 收藏檢視：跨區域、不受月份限制，呈現使用者完整的行程收藏
+        if (!isFaved(spot.id)) return false;
+      } else {
+        if (spot.region !== currentRegion) return false;
+        if (currentMonth !== 0 && spot._months.indexOf(currentMonth) === -1) return false;
+        if (currentFilter !== "all" && !spotInCategory(spot, currentFilter)) return false;
+      }
       if (!currentSearch) return true;
       var q = currentSearch.toLowerCase();
       return (
@@ -348,9 +355,8 @@
   function updateFilterCounts() {
     var regionSpots = SPOTS.filter(function (s) { return s.region === currentRegion; });
     var counts = { all: regionSpots.length };
-    regionSpots.forEach(function (s) {
-      var cat = getFlowerCategory(s.flowers);
-      counts[cat] = (counts[cat] || 0) + 1;
+    Object.keys(FLOWER_CATEGORIES).forEach(function (key) {
+      counts[key] = regionSpots.filter(function (s) { return spotInCategory(s, key); }).length;
     });
     var btns = document.querySelectorAll(".filter-btn");
     for (var i=0; i<btns.length; i++) {

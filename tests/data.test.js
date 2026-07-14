@@ -2,7 +2,7 @@
 "use strict";
 const test = require("node:test");
 const assert = require("node:assert");
-const { SPOTS } = require("../data.js");
+const { SPOTS, spotInCategory } = require("../data.js");
 const { parseBloomMonths } = require("../utils.js");
 
 const REGION_BOUNDS = {
@@ -36,4 +36,17 @@ test("必填欄位齊全", () => {
     });
     assert.ok(Array.isArray(s.flowers) && s.flowers.length > 0, s.id + " flowers 空");
   });
+});
+test("spotInCategory: multi-flower spot matches every category its flowers cover", () => {
+  const roksan = SPOTS.find(s => s.id === "jeju-06"); // 鹿山路 櫻花+油菜花
+  assert.ok(roksan, "jeju-06 exists");
+  assert.ok(spotInCategory(roksan, "cherry"), "matches cherry");
+  assert.ok(spotInCategory(roksan, "rapeseed"), "matches rapeseed");
+  assert.ok(!spotInCategory(roksan, "camellia"), "does not match camellia");
+});
+test("spotInCategory: single-cherry spot matches only cherry", () => {
+  const cherryOnly = SPOTS.find(s => s.region === "seoul" && s.flowers.length === 1 && s.flowers[0] === "櫻花");
+  assert.ok(cherryOnly, "a cherry-only seoul spot exists");
+  assert.ok(spotInCategory(cherryOnly, "cherry"));
+  assert.ok(!spotInCategory(cherryOnly, "rapeseed"));
 });

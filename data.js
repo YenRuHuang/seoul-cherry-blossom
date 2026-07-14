@@ -196,6 +196,9 @@ function getFlowerCategory(flowers) {
   }
   return "other";
 }
+function spotInCategory(spot, catKey) {
+  return spot.flowers.some(function (f) { return getFlowerCategory([f]) === catKey; });
+}
 function getMarkerEmoji(cat) {
   return {cherry:"🌸",forsythia:"💛",azalea:"🌺",tulip:"🌷",rapeseed:"🟡",hydrangea:"💠",camellia:"🏵️",buckwheat:"🤍",silvergrass:"🌾",plum:"🌸",other:"🌿"}[cat]||"🌸";
 }
@@ -205,5 +208,5 @@ function getTypeEmoji(type) {
 
 // Node 測試用 interop（browser 端 typeof module === "undefined"，無作用）
 if (typeof module !== "undefined" && module.exports) {
-  module.exports = { SPOTS: SPOTS, FLOWER_CATEGORIES: FLOWER_CATEGORIES, getFlowerCategory: getFlowerCategory };
+  module.exports = { SPOTS: SPOTS, FLOWER_CATEGORIES: FLOWER_CATEGORIES, getFlowerCategory: getFlowerCategory, spotInCategory: spotInCategory };
 }
