@@ -67,6 +67,12 @@
 
   var currentFilter = "all";
   var currentSearch = "";
+  var currentRegion = "seoul";
+  var REGION_META = {
+    seoul: { label: "首爾", center: [37.5665, 126.978], zoom: 11 },
+    jeju: { label: "濟州島", center: [33.38, 126.55], zoom: 10 },
+    busan: { label: "釜山", center: [35.16, 129.06], zoom: 11 },
+  };
 
   // ── 工具 ──
   function getMarkerClass(cat) {
@@ -216,6 +222,7 @@
   // ── 篩選 ──
   function getFilteredSpots() {
     return SPOTS.filter(function(spot) {
+      if (spot.region !== currentRegion) return false;
       var cat = getFlowerCategory(spot.flowers);
       var matchFilter = currentFilter === "all" || currentFilter === "fave" || cat === currentFilter;
       if (currentFilter === "fave") matchFilter = isFaved(spot.id);
@@ -267,6 +274,21 @@
     updateView();
   });
 
+  document.getElementById("regionBar").addEventListener("click", function (e) {
+    var btn = e.target.closest(".region-btn");
+    if (!btn) return;
+    var region = btn.getAttribute("data-region");
+    if (region === currentRegion) return;
+    currentRegion = region;
+    var btns = document.querySelectorAll(".region-btn");
+    for (var i = 0; i < btns.length; i++) btns[i].classList.remove("active");
+    btn.classList.add("active");
+    var meta = REGION_META[region];
+    map.flyTo(meta.center, meta.zoom, { duration: 1.2 });
+    updateFilterCounts();
+    updateView();
+  });
+
   document.getElementById("scrollTop").addEventListener("click", function() {
     window.scrollTo({ top:0, behavior:"smooth" });
   });
@@ -301,8 +323,9 @@
 
   // 篩選計數
   function updateFilterCounts() {
-    var counts = { all: SPOTS.length };
-    SPOTS.forEach(function(s) {
+    var regionSpots = SPOTS.filter(function (s) { return s.region === currentRegion; });
+    var counts = { all: regionSpots.length };
+    regionSpots.forEach(function (s) {
       var cat = getFlowerCategory(s.flowers);
       counts[cat] = (counts[cat] || 0) + 1;
     });
@@ -310,14 +333,12 @@
     for (var i=0; i<btns.length; i++) {
       var f = btns[i].getAttribute("data-filter");
       if (f === "fave") continue;
-      if (counts[f] !== undefined) {
-        var text = btns[i].textContent.replace(/\s*\d+$/, "");
-        var span = document.createElement("span");
-        span.className = "count";
-        span.textContent = counts[f];
-        btns[i].textContent = text + " ";
-        btns[i].appendChild(span);
-      }
+      var text = btns[i].textContent.replace(/\s*\d+$/, "");
+      var span = document.createElement("span");
+      span.className = "count";
+      span.textContent = counts[f] || 0;
+      btns[i].textContent = text + " ";
+      btns[i].appendChild(span);
     }
   }
 

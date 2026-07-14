@@ -71,6 +71,17 @@ body {
   background: var(--surface); border-bottom: 1px solid var(--border);
   position: sticky; top: 0; z-index: 999;
 }
+.region-bar { display: flex; gap: 8px; padding: 10px 20px 0; }
+.region-btn {
+  font-family: var(--font-body); font-size: 13px; font-weight: 600;
+  padding: 7px 16px; border: 1px solid var(--border); border-radius: 999px;
+  background: var(--surface); color: var(--text-secondary); cursor: pointer;
+  transition: all .15s;
+}
+.region-btn:hover { border-color: var(--text-tertiary); color: var(--text); }
+.region-btn.active {
+  background: var(--accent); border-color: var(--accent); color: #fff;
+}
 .search-wrap { padding: 10px 20px 0; }
 .search-input {
   width: 100%; padding: 10px 14px;
@@ -295,6 +306,7 @@ body {
 }
 @media (min-width: 768px) {
   .header { padding: 0 32px; }
+  .toolbar .region-bar { padding: 10px 32px 0; }
   .toolbar .search-wrap { padding: 10px 32px 0; }
   .toolbar .filter-bar { padding: 8px 32px 10px; }
   .stats-bar { padding: 8px 32px; }
